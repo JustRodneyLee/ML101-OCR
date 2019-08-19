@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 class InputLayer:
     def __init__(self, name, batch_size):
@@ -32,6 +33,10 @@ class FullyConnectedLayer:
         self.weights = np.random.randn(l_y, l_x) / np.sqrt(l_x)
         self.bias = np.random.randn(l_y, 1)
         self.rate = 0
+        
+    def load(self, weights, biases):
+        self.weights = weights
+        self.biases = biases
 
     def forward(self, x):
         self.x = x
@@ -96,14 +101,19 @@ def main():
     dataLayer2 = InputLayer('validate.npy', 10000)
     hiddenLayers = []
     hiddenLayers.append(FullyConnectedLayer(17*17, 26))
+    if os.path.isfile("OCR_en_US_weights.csv") & os.path.isfile("OCR_en_US_biases.csv"):
+        hiddenLayers[0].load(np.loadtxt("OCR_en_US_weights.csv",delimiter=","),np.loadtxt("OCR_en_US_biases.csv",delimiter=","))
     hiddenLayers.append(ActivationLayer())
     lossLayer = QuadraticLoss()
     accuracy = Accuracy()
-    rate = 1000
+    acc = 0
+    calib = 1.5
+    rate = 1100
     for layer in hiddenLayers:
             layer.rate = rate
-        
-    epochs = 30
+
+    lastLoss = -1
+    epochs = 10
     for i in range(epochs):
         print('Epoch ',i)
         
@@ -127,13 +137,25 @@ def main():
                 x, label = data
                 for layer in hiddenLayers:
                     x = layer.forward(x)
-                acc = accuracy.forward(x, label)                    
-                print('Loss:',lossSum / iterations)                
+                acc = accuracy.forward(x, label)
+                averageLoss = lossSum / iterations
+                print('Loss:',averageLoss)                
                 print('Accuracy:',acc)
                 print('Learning Rate:',rate)
                 #Changing learning rate
+                '''if (lastLoss!=-1):                    
+                    if (averageLoss<=lastLoss):
+                        rate*=calib
+                    else:
+                        rate/=calib
+                lastLoss = averageLoss
+                for layer in hiddenLayers:
+                    layer.rate = rate'''
                 break
-    np.savetxt("OCR_en_US.csv", hiddenLayers[0].)
+    np.savetxt("OCR_en_US_weights.csv", hiddenLayers[0].weights, delimiter=",")
+    np.savetxt("OCR_en_US_biases.csv", hiddenLayers[0].bias, delimiter=",")
+    #with open('OCR_Accuracy', 'w') as file:
+        #file.write(acc)
         
 if __name__ == '__main__':
     main()
