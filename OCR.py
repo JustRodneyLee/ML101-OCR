@@ -54,20 +54,38 @@ class FullyConnectedLayer:
         return self.dw, self.db        
 
 class ActivationLayer:
-    def __init__(self):
-        pass
+    def __init__(self, actType):
+        self.activation = actType
     
     def sigmoid(self, x):
         return 1/(1+np.exp(-x))
+
+    def relu(self, x):
+        i = 0
+        out = np.zeros_like(x)
+        for xx in x:
+            if np.sum(xx)>0:
+                out[i]=xx
+            i+=1
+        return out
     
     def forward(self, x):
         self.x = x
-        self.y = self.sigmoid(x)
+        if self.activation=="Sigmoid":            
+            self.y = self.sigmoid(x)
+        elif self.activation=="RELU":            
+            self.y = self.relu(x)
         return self.y
     
     def backward(self, d):
-        sig = self.sigmoid(self.x)
-        self.dx = d * sig * (1 - sig)
+        if self.activation=="Sigmoid":
+            sig = self.sigmoid(self.x)
+            self.dx = d * sig * (1 - sig)
+        elif self.activation=="RELU":
+            if np.sum(self.y)>0:
+                self.dx = 1
+            else:
+                self.dx = 0
         return self.dx
 
 class QuadraticLoss:
@@ -103,7 +121,7 @@ def main():
     hiddenLayers.append(FullyConnectedLayer(17*17, 26))
     if os.path.isfile("OCR_en_US_weights.csv") & os.path.isfile("OCR_en_US_biases.csv"):
         hiddenLayers[0].load(np.loadtxt("OCR_en_US_weights.csv",delimiter=","),np.loadtxt("OCR_en_US_biases.csv",delimiter=","))
-    hiddenLayers.append(ActivationLayer())
+    hiddenLayers.append(ActivationLayer("RELU"))
     lossLayer = QuadraticLoss()
     accuracy = Accuracy()
     acc = 0
