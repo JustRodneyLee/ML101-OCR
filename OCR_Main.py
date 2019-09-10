@@ -4,13 +4,22 @@ from PIL import Image
 import numpy as np
 import os
 
-def ConvertToArray(src):        
+def ConvertToArray(src):    
     img = imread(src)
-    #img = img/255
-    #black and white issue...
-    img.resize((289, 1))
-    img = np.dot(rgb[...,:3],[0.2989, 0.5870, 0.1140])
-    return img        
+    #img.resize((289,1))
+    #img = Image.open(src).convert('LA')
+    #img.show()
+    ret = np.array(img)
+    ret.resize(289, 1, refcheck = False)
+    #ret = ret/255
+    #Image.fromarray(ret).show()
+    #print(ret)
+    #for i in zip(ret):
+    #    if (i[0]>0.5):
+    #        i = (1)
+    #    else:
+    #        i = (0)
+    return ret      
 
 class FullyConnectedLayer:
     def __init__(self,l_x,l_y):
