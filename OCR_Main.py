@@ -1,5 +1,6 @@
 from scipy import misc
 from matplotlib.pyplot import imread
+from PIL import Image
 import numpy as np
 import os
 
@@ -7,7 +8,8 @@ def ConvertToArray(src):
     img = imread(src)
     #img = img/255
     #black and white issue...
-    img.resize((289, 1))    
+    img.resize((289, 1))
+    img = np.dot(rgb[...,:3],[0.2989, 0.5870, 0.1140])
     return img        
 
 class FullyConnectedLayer:
