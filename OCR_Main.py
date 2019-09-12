@@ -6,6 +6,14 @@ import os
 
 def ConvertToArray(src):    
     img = imread(src)
+
+    im = Image.open(src, 'r').convert('L')
+    im = im.resize((17,17))
+    im.save("temp.png")
+    img = imread("temp.png")
+    img[img > 0] = 1
+    print(img)
+    
     #img.resize((289,1))
     #img = Image.open(src).convert('LA')
     #img.show()
@@ -82,6 +90,7 @@ def main():
     
         #ASCII A 65 Z 90
         print(chr(np.argmax(hiddenLayers[1].y)+65))
+        os.remove("temp.png")
     
 if __name__ == "__main__":
     main()
