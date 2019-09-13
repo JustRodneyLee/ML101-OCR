@@ -24,7 +24,7 @@ def Preprocess(src):
         else:
             f = True
         #cv2.imshow("Image",img)
-        cv2.waitKey(0)
+        #cv2.waitKey(0)
         
     img = cv2.resize(img,(17,17))
     img[img > 0] = 1
