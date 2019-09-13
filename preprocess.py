@@ -22,3 +22,5 @@ def main(src, dst):
 
 if __name__ == "__main__":
     main("validate.txt","validate.npy")
+    main("test.txt", "test.npy")
+    main("train.txt", "train.npy")

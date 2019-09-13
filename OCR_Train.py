@@ -62,7 +62,7 @@ class ActivationLayer:
 
     def relu(self, x):
         i = 0
-        out = np.zeros_like(x)
+        out = np.zeros(x.shape)
         for xx in x:
             if np.sum(xx)>0:
                 out[i]=xx
@@ -125,12 +125,12 @@ def main():
     lossLayer = QuadraticLoss()
     accuracy = Accuracy()
     acc = 0
-    calib = 1.5
+    #calib = 1.5
     rate = 1100
     for layer in hiddenLayers:
             layer.rate = rate
 
-    lastLoss = -1
+    #lastLoss = -1
     epochs = 10
     for i in range(epochs):
         print('Epoch ',i)

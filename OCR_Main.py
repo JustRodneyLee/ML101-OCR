@@ -1,24 +1,48 @@
 from scipy import misc
-from matplotlib.pyplot import imread
-from PIL import Image
+#from matplotlib.pyplot import imread
+#from PIL import Image
+import cv2
 import numpy as np
 import os
 
-def ConvertToArray(src):    
-    img = imread(src)
+def Preprocess(src):
 
-    im = Image.open(src, 'r').convert('L')
-    im = im.resize((17,17))
-    im.save("temp.png")
-    img = imread("temp.png")
-    img[img > 0] = 1
-    print(img)
+    def Dialate(img):
+        kernel = np.ones((3,3), np.uint8)
+        nimg = cv2.dilate(img, kernel, iterations=1)
+        return nimg
     
+    img = cv2.imread(src,0) #Reads in image in grayscale
+    h, w = img.shape #height and width
+    f = False
+    while h>=34 and w>=34:       
+        img = cv2.resize(img,None,fx=0.5,fy=0.5,interpolation=cv2.INTER_LANCZOS4)
+        h, w = img.shape
+        if f: #Alternating dialation
+            img = Dialate(img)
+            f = False
+        else:
+            f = True
+        #cv2.imshow("Image",img)
+        cv2.waitKey(0)
+        
+    img = cv2.resize(img,(17,17))
+    img[img > 0] = 1
+    img.resize((289,1))    
+    return img
+
+    #img = imread(src)
+    #im = Image.open(src, 'r').convert('L')
+    #im = im.resize((17,17))
+    #im.save("temp.png")
+    #img = imread("temp.png")
+    #img[img > 0] = 1
+    #print(img)    
     #img.resize((289,1))
     #img = Image.open(src).convert('LA')
     #img.show()
-    ret = np.array(img)
-    ret.resize(289, 1, refcheck = False)
+    #ret = np.array(img)
+    #ret.resize(289, 1, refcheck = False)
     #ret = ret/255
     #Image.fromarray(ret).show()
     #print(ret)
@@ -27,7 +51,7 @@ def ConvertToArray(src):
     #        i = (1)
     #    else:
     #        i = (0)
-    return ret      
+    #return ret      
 
 class FullyConnectedLayer:
     def __init__(self,l_x,l_y):
@@ -79,8 +103,8 @@ def main():
         print("Enter path of image:")
         path = input()
         if (path=="bye" or path=="quit" or path=="exit"):
-            break
-        dat = ConvertToArray(path)
+            break        
+        dat = Preprocess(path)
         x = []
         for i in range(1, 26):
             x.append(dat)
@@ -90,7 +114,7 @@ def main():
     
         #ASCII A 65 Z 90
         print(chr(np.argmax(hiddenLayers[1].y)+65))
-        os.remove("temp.png")
+        #os.remove("temp.png")
     
 if __name__ == "__main__":
     main()
