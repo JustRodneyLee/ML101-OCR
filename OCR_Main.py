@@ -7,7 +7,7 @@ import os
 
 def Preprocess(src):
 
-    def Dialate(img):
+    def Dilate(img):
         kernel = np.ones((3,3), np.uint8)
         nimg = cv2.dilate(img, kernel, iterations=1)
         return nimg
@@ -18,8 +18,8 @@ def Preprocess(src):
     while h>=34 and w>=34:       
         img = cv2.resize(img,None,fx=0.5,fy=0.5,interpolation=cv2.INTER_LANCZOS4)
         h, w = img.shape
-        if f: #Alternating dialation
-            img = Dialate(img)
+        if f: #Alternating dilation
+            img = Dilate(img)
             f = False
         else:
             f = True
