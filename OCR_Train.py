@@ -104,6 +104,23 @@ class QuadraticLoss:
         self.dx = (self.x - self.label) / self.x.shape[0]
         return self.dx
 
+class CrossEntropyLoss:
+    def __init__(self):
+        pass    
+        
+    def forward(self, x, label):
+        self.x = x
+        self.label = np.zeros_like(x)
+        for a, b in zip(self.label, label):
+            a[b] = 1.0
+        self.loss = np.nan_to_num(-self.label * np.log(x) - ((1 - self.label) * np.log(1 - x)))
+        self.loss = np.sum(self.loss) / x.shape[0]
+        return self.loss
+
+    def backward(self):
+        self.dx = (self.x - self.label) / self.x / (1 - self.x)
+        return self.dx
+
 class Accuracy:
     def __init__(self):
         pass
@@ -115,6 +132,8 @@ class Accuracy:
 
 
 def main():
+    print("Enter target Accuracy:")
+    targetAccuracy = int(input())
     dataLayer1 = InputLayer('train.npy', 1024)
     dataLayer2 = InputLayer('validate.npy', 10000)
     hiddenLayers = []
@@ -131,10 +150,12 @@ def main():
             layer.rate = rate
 
     #lastLoss = -1
-    epochs = 10
-    for i in range(epochs):
+    #epochs = 10
+    #for i in range(epochs):
+    i = 0
+    while acc*100<targetAccuracy:
         print('Epoch ',i)
-        
+        i+=1
         lossSum = 0        
         iterations = 0
         while True:
