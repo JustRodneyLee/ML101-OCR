@@ -11,7 +11,7 @@ In application, these 2 functions are not necessarily needed, and in this projec
 
 ## Demo Result
 Below is the result of a successful attempt to recognize the letter 'A'. The image is drawn in MS Paint.
-![DemoA](https://github.com/JustRodneyLee/ML101-OCR/tree/master/readmeImages/demoA.png)
+![DemoA](https://raw.githubusercontent.com/JustRodneyLee/ML101-OCR/tree/master/readmeImages/demoA.png)
 
 ## Source Files
 Training Data is downloaded from http://arxiv.org/abs/1702.05373 and http://archive.ics.uci.edu/ml.
