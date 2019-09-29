@@ -8,4 +8,4 @@ Basically, a neural network is a web of interconnected neurons, each holding a b
 
 # Demo Result
 Below is the result of a successful attempt to recognize the letter 'A'. The image is drawn in MS Paint.
-![DemoA](https://github.com/JustRodneyLee/ML101-OCR/readmeImages/demoA.PNG)
+![DemoA](https://github.com/JustRodneyLee/ML101-OCR/readmeImages/demoA.png)
