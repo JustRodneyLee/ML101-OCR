@@ -1,2 +1,3 @@
 # ML101-OCR
-Machine Learning 101: OCR for the English Alphabet
+>A simple Neural Network that recognizes English Letters
+The first lesson to Machine Learning programming. 
