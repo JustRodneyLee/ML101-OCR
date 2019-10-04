@@ -1,6 +1,11 @@
 # ML101-OCR
 This is a simple program written to recognize the 26 English Letters. Using the Neural Network model, the program can be run to train itself to identify different English letters.
 
+## A more direct presentation
+This following link leads to a video on this project:
+
+https://youtu.be/BlVEDFD9vqQ
+
 ## How it works
 For those who are not familiar with machine learning technology, the neural network model is the most popular learning model in the A.I. industry.
 Basically, a neural network is a web of interconnected neurons, each holding a bias value, and numerous weights depending on how many other neurons are connected to it. The neurons form layers, which then interconnect to form a fully functional neural network. There are basically three parts in a neural network, an input layer, hidden layers and an output layer. The data is fed into the input layer, which is then *forwarded* to the hidden layers (Layers that contain weights and biases) for calculations, and lastly given to the output layer for human-friendly feedback.
